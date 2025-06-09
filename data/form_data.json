@@ -1,0 +1,38 @@
+{
+  "formTitle": "User Registration",
+  "formDescription": "Please fill out the form below to register.",
+  "fields": [
+    {
+      "label": "Name",
+      "type": "text",
+      "name": "name",
+      "required": true
+    },
+    {
+      "label": "Email",
+      "type": "email",
+      "name": "email",
+      "required": true
+    },
+    {
+      "label": "Age",
+      "type": "number",
+      "name": "age",
+      "required": false
+    }
+  ],
+  "submissions":    
+  [
+    {
+      "name": "Alice",
+      "email": "alice@example.com",
+      "age": 30
+    },
+    {
+      "name": "Bob",
+      "email": "bob@example.com",
+      "age": 25
+    }
+ ]
+}
+  
