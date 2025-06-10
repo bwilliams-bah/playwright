@@ -1,6 +1,5 @@
 
 import { Page, Locator, expect } from '@playwright/test';
-import { time } from 'console';
 
 export class Admin_Page {
   
@@ -65,7 +64,6 @@ export class Admin_Page {
   }
 
   async navigate() {
-    // await this.page.goto('http://localhost:5173/loadout/dm-admin', { waitUntil: 'networkidle' });
     await this.page.goto('dm-admin', { waitUntil: 'networkidle' });
     await (await this.lastRow()).waitFor({ state: 'visible', timeout: 5000 });
   }

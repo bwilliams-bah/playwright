@@ -1,6 +1,7 @@
 import { expect } from '../myFixtures';
 import { estimate_data } from '../../data/estimate_data';
 import { Page, Locator } from '@playwright/test';
+import { Faker, ja } from '@faker-js/faker';
 
 export class Create_TMR_Page {
     
@@ -14,6 +15,9 @@ export class Create_TMR_Page {
   readonly submitEstimateForProcessingButton: Locator;
   readonly firstRow: Locator;
   readonly deleteEstimateRequestButton: Locator;
+  filePath: string;
+  customFaker: Faker;
+  address: string;
   
 
   constructor(page: Page) {
@@ -27,6 +31,9 @@ export class Create_TMR_Page {
     this.submitEstimateForProcessingButton = page.getByRole('button', {name: 'Submit estimate for Processing' });
     this.firstRow = page.locator('[data-rowindex="0"]');
     this.deleteEstimateRequestButton = page.getByRole('button', { name: 'Delete Estimate Request' });
+    this.filePath = './data/blank.pdf'; // Path to the file to be uploaded
+    this.customFaker = new Faker({ locale: [ja] }); // Initialize Faker with Japanese locale
+    this.address = this.customFaker.location.streetAddress(); // Example usage: random address generated using customFaker
     }
 
   async navigate() {
@@ -66,7 +73,7 @@ export class Create_TMR_Page {
       await this.page.locator('input[name*="pickupDate"]').click(  );
       await this.page.locator('div[name="originLocationId"]').click({timeout: 5000});
       await this.page.getByRole('option', 
-        { name: 'Atsugi Air Base, BLDG 206, Atsugi Air Base, Ayase, NONE (INTL), 252-1105, Japan', exact: true }).click()
+        { name: this.address, exact: true }).click()
       await this.page.locator('div[name*="destinationCountryId"]').click({timeout: 5000});
       await this.page.getByRole('option', { name: 'Japan', exact: true }).click()
       await this.page.locator('div[name*="destinationTerritoryId"]').click({timeout: 5000});
@@ -79,7 +86,7 @@ export class Create_TMR_Page {
 
       await this.page.locator('div[name*="destinationLocationId"]').click({timeout: 5000});
       await this.page.getByRole('option', 
-        { name: '10th Sg Ammunition Depot , BLDG N/A, Daikujaku, Kadena , NONE (INTL), 904-0000, Japan', exact: true }).click()
+        { name: this.address, exact: true }).click()
       await this.continueButton.click({ timeout: 5000 });
 
     }
@@ -195,7 +202,7 @@ export class Create_TMR_Page {
     await this.addCargo();
 
     // Upload a file
-    await this.uploadFile('./data/tmr-template.pdf')
+    await this.uploadFile(this.filePath)
 
     // Fill required field
     await this.page.getByRole('textbox', { name: 'Fund Document Number (TAC/LOA)' }).fill("TEST1234")

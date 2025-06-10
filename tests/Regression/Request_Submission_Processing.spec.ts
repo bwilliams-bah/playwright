@@ -11,6 +11,7 @@ test.describe('Request Submission and Processing Tests', () => {
   let createEstimatesPage: Create_Estimates_Page = null as any; // Initialize createEstimatesPage variable
   let createTMRPage: Create_TMR_Page = null as any; // Initialize createTMRPage variable
   let page: Page = null as any; // Initialize page variable
+  let filePath: string = './data/blank.pdf'; // Path to the file to be uploaded
   
 
   test.beforeEach(async ({ setUserContext }  ) => {
@@ -86,7 +87,7 @@ test.describe('Request Submission and Processing Tests', () => {
     await createEstimatesPage.addCargo();
 
     // Upload a file
-    await createTMRPage.uploadFile('./data/tmr-template.pdf')
+    await createTMRPage.uploadFile(filePath)
 
     // Fill out the required fields (Currency, Estimate)
     await createTMRPage.fillCurrencyAndEstimateDetails();
@@ -176,7 +177,7 @@ test.describe('Request Submission and Processing Tests', () => {
     await createTMRPage.addCargo();
 
     // Upload a file
-    await createEstimatesPage.uploadFile('./data/tmr-template.pdf')
+    await createEstimatesPage.uploadFile(filePath)
 
     // Fill required field
     await page.getByRole('textbox', { name: 'Fund Document Number (TAC/LOA)' }).fill("TEST1234")
